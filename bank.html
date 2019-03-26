@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>Bank</title>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+    // Ett objekt för ett konto och dess metoder.
+    var Konto = function(name, credit) {
+        this.name = name;
+        this.credit = credit;
+
+        this.deposit = function(amount) {
+            this.credit += amount;
+        }
+
+    }
+
+    Konto.prototype.withdraw = function(amount) {
+        if (amount < this.credit)
+            this.credit = this.credit - amount;
+    }
+
+    // En metod för att ta ut pengar.
+
+    // Ett objekt för en speciell typ av konto. Max ett uttag/år.
+    var Sparkonto = function(name, credit) {
+        Konto.call(this, name, credit);
+        this.canWithdraw = true;
+    }
+
+    Sparkonto.prototype = Object.create(Konto.prototype);
+
+    Sparkonto.prototype.withdraw = function(amount) {
+        if (this.canWithdraw) {
+            if (amount < this.credit) {
+                this.credit = this.credit - amount;
+                this.canWithdraw = false;
+            }
+        }
+    }
+
+    var anna = new Konto("Anna", 2000);
+    var bertil = new Sparkonto("Bertil", 100000);
+</script>
